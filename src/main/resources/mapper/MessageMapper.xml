@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="domain.Message">
+    <id column="MessageID" jdbcType="INTEGER" property="messageid" />
+    <result column="MessageHead" jdbcType="VARCHAR" property="messagehead" />
+    <result column="MessageContent" jdbcType="VARCHAR" property="messagecontent" />
+    <result column="MessagePerson" jdbcType="VARCHAR" property="messageperson" />
+    <result column="BuildID" jdbcType="INTEGER" property="buildid" />
+    <result column="RoomID" jdbcType="INTEGER" property="roomid" />
+    <result column="MessageDate" jdbcType="TIMESTAMP" property="messagedate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MessageID, MessageHead, MessageContent, MessagePerson, BuildID, RoomID, MessageDate
+  </sql>
+
+  <!--根据留言代办Id号查询-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where MessageID = #{messageid,jdbcType=INTEGER}
+  </select>
+
+  <!--根据宿舍号查询所有留言代办-->
+  <select id="selectByRoom" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from message
+    where BuildID = #{buildid,jdbcType=INTEGER} and RoomID = ##{roomid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where MessageID = #{messageid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="domain.Message">
+    insert into message (MessageID, MessageHead, MessageContent, 
+      MessagePerson, BuildID, RoomID, 
+      MessageDate)
+    values (#{messageid,jdbcType=INTEGER}, #{messagehead,jdbcType=VARCHAR}, #{messagecontent,jdbcType=VARCHAR}, 
+      #{messageperson,jdbcType=VARCHAR}, #{buildid,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, 
+      #{messagedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageid != null">
+        MessageID,
+      </if>
+      <if test="messagehead != null">
+        MessageHead,
+      </if>
+      <if test="messagecontent != null">
+        MessageContent,
+      </if>
+      <if test="messageperson != null">
+        MessagePerson,
+      </if>
+      <if test="buildid != null">
+        BuildID,
+      </if>
+      <if test="roomid != null">
+        RoomID,
+      </if>
+      <if test="messagedate != null">
+        MessageDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageid != null">
+        #{messageid,jdbcType=INTEGER},
+      </if>
+      <if test="messagehead != null">
+        #{messagehead,jdbcType=VARCHAR},
+      </if>
+      <if test="messagecontent != null">
+        #{messagecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageperson != null">
+        #{messageperson,jdbcType=VARCHAR},
+      </if>
+      <if test="buildid != null">
+        #{buildid,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="messagedate != null">
+        #{messagedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.Message">
+    update message
+    <set>
+      <if test="messagehead != null">
+        MessageHead = #{messagehead,jdbcType=VARCHAR},
+      </if>
+      <if test="messagecontent != null">
+        MessageContent = #{messagecontent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageperson != null">
+        MessagePerson = #{messageperson,jdbcType=VARCHAR},
+      </if>
+      <if test="buildid != null">
+        BuildID = #{buildid,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        RoomID = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="messagedate != null">
+        MessageDate = #{messagedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where MessageID = #{messageid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.Message">
+    update message
+    set MessageHead = #{messagehead,jdbcType=VARCHAR},
+      MessageContent = #{messagecontent,jdbcType=VARCHAR},
+      MessagePerson = #{messageperson,jdbcType=VARCHAR},
+      BuildID = #{buildid,jdbcType=INTEGER},
+      RoomID = #{roomid,jdbcType=INTEGER},
+      MessageDate = #{messagedate,jdbcType=TIMESTAMP}
+    where MessageID = #{messageid,jdbcType=INTEGER}
+  </update>
+</mapper>

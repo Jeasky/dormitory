@@ -1,0 +1,64 @@
+body {
+  overflow: scroll;
+  overflow-y: hidden;
+  background: url(../images/loginBg.jpg) repeat-x;
+}
+.login {
+  width: 400px;
+  height: 400px;
+  margin: 180px auto;
+}
+.login h1 {
+  text-align: center;
+  text-shadow: 2px 2px #000;
+  color: #fff;
+}
+.login form {
+  box-sizing: border-box;
+  width: 387px;
+  height: 280px;
+  background: url(../images/formBg.png) no-repeat;
+  margin: 30px auto 0;
+  padding-top: 80px;
+  text-align: center;
+}
+.login form label {
+  display: inline-block;
+  width: 60px;
+  margin: 0 10px 0 -22px;
+  text-align: right;
+  font-size: 16px;
+}
+.login form label:nth-child(1) {
+  margin-bottom: 30px;
+}
+.login form input {
+  border-style: none;
+  border: 1px solid #ccc;
+  width: 200px;
+  height: 35px;
+  padding-left: 10px;
+  line-height: 35px;
+  color: #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.login form input:nth-child(1) {
+  margin-bottom: 30px;
+}
+.login form a {
+  display: inline-block;
+  width: 70px;
+  height: 40px;
+  background-color: #54a4d7;
+  margin-top: 20px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 15px;
+  color: #fff;
+  border-radius: 5px;
+}
+.login form .login-btn {
+  margin-right: 20px;
+  margin-left: 15px;
+}

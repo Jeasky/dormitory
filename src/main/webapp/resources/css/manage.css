@@ -1,0 +1,57 @@
+section a [class^="icon"] {
+    color: rgb(255, 197, 89);
+    font-weight: 400;
+    text-shadow: 1px 1px #000;
+}
+
+.list h2 input {
+    position: relative;
+    width: 500px;
+    height: 50px;
+    margin: 0 240px 0 320px;
+    padding-left: 10px;
+    line-height: 50px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border-style: none;
+    border: 1px solid #333;
+}
+
+.list .input {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.list .input::after {
+    cursor: pointer;
+    content: "\e900";
+    font-family: "icomoon";
+    position: absolute;
+    top: 12px;
+    right: 330px;
+}
+
+.list .add {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.list .add .icon {
+    font-size: 16px;
+    color: green;
+}
+
+table td a:nth-child(1) {
+    float: left;
+    color: green;
+}
+
+table td a:nth-child(2) {
+    float: right;
+    color: red;
+}
+
+table tr .content {
+    width: 300px;
+}

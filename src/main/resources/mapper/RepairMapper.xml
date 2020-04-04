@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.RepairMapper">
+  <resultMap id="BaseResultMap" type="domain.Repair">
+    <id column="RepairID" jdbcType="INTEGER" property="repairid" />
+    <result column="RepairThing" jdbcType="VARCHAR" property="repairthing" />
+    <result column="RepairDes" jdbcType="VARCHAR" property="repairdes" />
+    <result column="BuildID" jdbcType="INTEGER" property="buildid" />
+    <result column="RoomID" jdbcType="INTEGER" property="roomid" />
+    <result column="RepairDateFrom" jdbcType="TIMESTAMP" property="repairdatefrom" />
+    <result column="RepairStatus" jdbcType="INTEGER" property="repairstatus" />
+    <result column="RepairPerson" jdbcType="VARCHAR" property="repairperson" />
+    <result column="RepairDateEnd" jdbcType="TIMESTAMP" property="repairdateend" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RepairID, RepairThing, RepairDes, BuildID, RoomID, RepairDateFrom, RepairStatus, 
+    RepairPerson, RepairDateEnd
+  </sql>
+
+  <!--查询指定ID的维修报备-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from repair
+    where RepairID = #{repairid,jdbcType=INTEGER}
+  </select>
+
+
+  <!--查询本宿舍的维修报备-->
+  <select id="selectByRoom" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from repair
+    where BuildID = #{buildid,jdbcType=INTEGER} and RoomID = #{roomid,jdbcType=INTEGER}
+    order by repairdatefrom desc
+  </select>
+
+  <!--查看所有维修部报备-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from repair
+    order by repairdatefrom desc
+  </select>
+
+  <!--查看所有已完成的维修部报备-->
+  <select id="selectDone" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from repair
+    where RepairStatus = 1
+    order by repairdatefrom desc
+  </select>
+
+  <!--查看所有未完成的维修部报备-->
+  <select id="selectUndo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from repair
+    where RepairStatus = 0
+    order by repairdatefrom desc
+  </select>
+
+
+    <!--删除指定ID的维修报备-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from repair
+    where RepairID = #{repairid,jdbcType=INTEGER}
+  </delete>
+
+  <!--新建维修报备-->
+  <insert id="insert" parameterType="domain.Repair">
+    insert into repair (RepairID, RepairThing, RepairDes, 
+      BuildID, RoomID, RepairDateFrom, 
+      RepairStatus, RepairPerson, RepairDateEnd
+      )
+    values (#{repairid,jdbcType=INTEGER}, #{repairthing,jdbcType=VARCHAR}, #{repairdes,jdbcType=VARCHAR}, 
+      #{buildid,jdbcType=INTEGER}, #{roomid,jdbcType=INTEGER}, #{repairdatefrom,jdbcType=TIMESTAMP}, 
+      #{repairstatus,jdbcType=INTEGER}, #{repairperson,jdbcType=VARCHAR}, #{repairdateend,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.Repair">
+    insert into repair
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="repairid != null">
+        RepairID,
+      </if>
+      <if test="repairthing != null">
+        RepairThing,
+      </if>
+      <if test="repairdes != null">
+        RepairDes,
+      </if>
+      <if test="buildid != null">
+        BuildID,
+      </if>
+      <if test="roomid != null">
+        RoomID,
+      </if>
+      <if test="repairdatefrom != null">
+        RepairDateFrom,
+      </if>
+      <if test="repairstatus != null">
+        RepairStatus,
+      </if>
+      <if test="repairperson != null">
+        RepairPerson,
+      </if>
+      <if test="repairdateend != null">
+        RepairDateEnd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="repairid != null">
+        #{repairid,jdbcType=INTEGER},
+      </if>
+      <if test="repairthing != null">
+        #{repairthing,jdbcType=VARCHAR},
+      </if>
+      <if test="repairdes != null">
+        #{repairdes,jdbcType=VARCHAR},
+      </if>
+      <if test="buildid != null">
+        #{buildid,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="repairdatefrom != null">
+        #{repairdatefrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repairstatus != null">
+        #{repairstatus,jdbcType=INTEGER},
+      </if>
+      <if test="repairperson != null">
+        #{repairperson,jdbcType=VARCHAR},
+      </if>
+      <if test="repairdateend != null">
+        #{repairdateend,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <!--更新维修报备-->
+  <update id="updateByPrimaryKeySelective" parameterType="domain.Repair">
+    update repair
+    <set>
+      <if test="repairthing != null">
+        RepairThing = #{repairthing,jdbcType=VARCHAR},
+      </if>
+      <if test="repairdes != null">
+        RepairDes = #{repairdes,jdbcType=VARCHAR},
+      </if>
+      <if test="buildid != null">
+        BuildID = #{buildid,jdbcType=INTEGER},
+      </if>
+      <if test="roomid != null">
+        RoomID = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="repairdatefrom != null">
+        RepairDateFrom = #{repairdatefrom,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repairstatus != null">
+        RepairStatus = #{repairstatus,jdbcType=INTEGER},
+      </if>
+      <if test="repairperson != null">
+        RepairPerson = #{repairperson,jdbcType=VARCHAR},
+      </if>
+      <if test="repairdateend != null">
+        RepairDateEnd = #{repairdateend,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where RepairID = #{repairid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.Repair">
+    update repair
+    set RepairThing = #{repairthing,jdbcType=VARCHAR},
+      RepairDes = #{repairdes,jdbcType=VARCHAR},
+      BuildID = #{buildid,jdbcType=INTEGER},
+      RoomID = #{roomid,jdbcType=INTEGER},
+      RepairDateFrom = #{repairdatefrom,jdbcType=TIMESTAMP},
+      RepairStatus = #{repairstatus,jdbcType=INTEGER},
+      RepairPerson = #{repairperson,jdbcType=VARCHAR},
+      RepairDateEnd = #{repairdateend,jdbcType=TIMESTAMP}
+    where RepairID = #{repairid,jdbcType=INTEGER}
+  </update>
+</mapper>

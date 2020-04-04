@@ -1,0 +1,30 @@
+.infrom {
+    padding: 60px 0 0 150px;
+    width: 800px;
+    margin: 60px 0 0 230px;
+}
+
+.submit {
+    width: 485px;
+    margin-top: 100px;
+}
+
+.submit a {
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #54a4d7;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.submit a:nth-child(1) {
+    float: left;
+}
+
+.submit a:nth-child(2) {
+    float: right;
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 这是单用Mybatis的用法,现在使用Spring和Mybatis结合就不用这个方法了 -->
+    <!--
+    <properties resource="db.properties"></properties>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"></property>
+                <property name="url" value="${jdbc.url}"></property>
+                <property name="username" value="${jdbc.username}"></property>
+                <property name="password" value="${jdbc.password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+
+    -->
+    <!--加载映射文件-->
+    <!--
+    <mappers>
+        <mapper resource="mapper/UsersMapper.xml"></mapper>
+        <mapper resource="mapper/AccountMapper.xml"></mapper>
+        <mapper resource="mapper/CostMapper.xml"></mapper>
+        <mapper resource="mapper/MessageMapper.xml"></mapper>
+        <mapper resource="mapper/NotifycationMapper.xml"></mapper>
+        <mapper resource="mapper/PaymentMapper.xml"></mapper>
+        <mapper resource="mapper/RepairMapper.xml"></mapper>
+    </mappers>
+    -->
+</configuration>
