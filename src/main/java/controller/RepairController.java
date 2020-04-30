@@ -3,7 +3,7 @@ package controller;
 
 import com.github.pagehelper.PageInfo;
 import domain.Repair;
-import domain.Users;
+import domain.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +31,7 @@ public class RepairController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        Users user = new Users();
+        User user = new User();
         //获取Cookie
         Cookie[] cookies = request.getCookies();
 
@@ -85,7 +85,7 @@ public class RepairController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        Users user = new Users();
+        User user = new User();
         //获取Cookie
         Cookie[] cookies = request.getCookies();
 
@@ -139,7 +139,7 @@ public class RepairController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        Users user = new Users();
+        User user = new User();
         //获取Cookie
         Cookie[] cookies = request.getCookies();
 
@@ -194,7 +194,7 @@ public class RepairController {
         ModelAndView modelAndView = new ModelAndView();
 
         //获取当前用户信息
-        Users user = new Users();
+        User user = new User();
 
         //获取Cookie
         Cookie[] cookies = request.getCookies();
@@ -231,7 +231,7 @@ public class RepairController {
         }
 
         //调用业务方法
-        PageInfo<Repair> pageInfo = this.repairService.displayRoom(page, pageSize, user.getBuildid(), user.getRoomid());
+        PageInfo<Repair> pageInfo = this.repairService.displayRoom(page, pageSize, user.getBuildid(), 4012);
 
         //把数据放入到容器中，以后能够从jsp页面中从这个容器中取出
         modelAndView.addObject("user", user);
@@ -250,7 +250,7 @@ public class RepairController {
         ModelAndView modelAndView = new ModelAndView();
 
         //获取当前用户信息
-        Users user = new Users();
+        User user = new User();
 
         //获取Cookie
         Cookie[] cookies = request.getCookies();

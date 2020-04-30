@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>登录</title>
 
     <base href="<%=basePath%>resources/">
     <!-- 初始化css文件 -->
@@ -25,11 +25,11 @@
 <div class="login">
     <h1>宿舍管理系统</h1>
     <form action="">
-        <label for="wechatid">用户名:</label>
-        <input type="text" id="wechatid" value="请输入用户名ID">
+        <label for="userid">用户名:</label>
+        <input type="text" id="userid" placeholder="请输入用户名ID">
         <br>
-        <label for="pwd">密码:</label>
-        <input type="text" id="pwd" value="请输入密码">
+        <label for="passwd">密码:</label>
+        <input type="password" id="passwd" placeholder="请输入密码">
         <br>
         <a id="loginbtn" class="login-btn">登录</a>
         <a id="reset">重置</a>
@@ -44,7 +44,8 @@
             url: "<%=basePath%>user/login",
             type: "POST",
             data: {
-                "wechatid": $("#wechatid").val()
+                "userid": $("#userid").val(),
+                "passwd": $("#passwd").val()
             },
             dataType: "json",
             success: function (data) {
@@ -74,8 +75,8 @@
     });
 
     $("#reset").click(function () {
-        $("#wechatid").val("");
-        $("#pwd").val("");
+        $("#userid").val("");
+        $("#passwd").val("");
     })
 </script>
 </html>

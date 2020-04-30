@@ -25,6 +25,15 @@
     <include refid="Base_Column_List" />
     from notifycation
     where buildid = #{buildid,jdbcType=INTEGER}
+    order by notificationdate desc
+  </select>
+
+  <select id="selectByKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from notifycation
+    where buildid = #{buildid,jdbcType=INTEGER} and notifycationhead LIKE '%${searchKey}%'
+    order by notificationdate desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

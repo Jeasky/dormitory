@@ -18,15 +18,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>添加通知公告</title>
-    <base href="<%= basePath%>/resources/">
+    <base href="<%= basePath%>resources/">
     <!-- 字体图标css文件 -->
     <link rel="stylesheet" href="http://at.alicdn.com/t/font_1629753_4m2l2q8ewm9.css">
     <!-- 初始化css文件 -->
     <link rel="stylesheet" href="css/base.css">
     <!-- 公共css文件 -->
     <link rel="stylesheet" href="css/conmon.css">
+    <!-- 引入页面css文件 -->
+    <link rel="stylesheet" href="css/manage.css">
     <!-- 页面css文件 -->
     <link rel="stylesheet" href="css/notifycation.css">
+    <!--引入jQuery文件-->
+    <script src="js/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
@@ -52,7 +56,7 @@
 <section>
     <ul>
         <li>
-            <a href="/dormitory/notifycation/list?buildid="${user.buildid}>
+            <a href="/dormitory/notifycation/list?buildid=${user.buildid}">
                 <span class="iconfont icon-tongzhigonggao icon1"></span> 通知公告
             </a>
         </li>
@@ -65,10 +69,9 @@
 </section>
 <!-- 侧边模块 end -->
 <div class="infrom">
-    <form action="notifycation/add" method="post">
         <div class="infrom-hd">
             通知标题:
-            <input id="notifycationhead" type="text" value="请输入通知公告标题">
+            <input id="notifycationhead" type="text" placeholder="请输入通知内容">
         </div>
 
         <div class="infrom-content">
@@ -77,13 +80,31 @@
         </div>
         <div class="release-unit">
             发布单位:
-            <input id="promulgator" type="text" value="请输入发布单位">
+            <input id="promulgator" type="text" placeholder="请输入发布单位">
             <a href="/dormitory/notifycation/list?buildid=${user.buildid}" class="cancel">取消</a>
-            <%--<a href="/dormitory/notifycation/add" class="publish">发布</a>--%>
-            <a type="submit" class="publish">发布</a>
+            <a id="publish" class="publish">发布</a>
         </div>
-    </form>
 </div>
+
+<script>
+    $("#publish").click(function () {
+        $.ajax({
+            url: "<%=basePath%>notifycation/add",
+            type: "POST",
+            data: {
+                "buildid": ${user.buildid},
+                "notifycationhead": $("#notifycationhead").val(),
+                "notifycationtext": $("#notifycationtext").val(),
+                "promulgator": $("#promulgator").val()
+            },
+            dataType: "text",
+            success: function (data) {
+                alert("添加成功！");
+                location.href= "<%=basePath%>notifycation/list?buildid=${user.buildid}";
+            }
+        })
+    });
+</script>
 </body>
 
 </html>

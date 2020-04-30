@@ -12,7 +12,7 @@ Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"
 
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true:是 : false:否 -->
-            <property name="suppressAllComments" value="false"/>
+            <property name="suppressAllComments" value="true"/>
         </commentGenerator>
 
         <!-- 配置一个连接 必改 -->
@@ -42,7 +42,7 @@ Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"
         <javaClientGenerator targetPackage="mapper" targetProject="src/main/java" type="XMLMAPPER"/>
 
         <!-- 必改-->
-        <table schema="dom-account" tableName="account" enableCountByExample="false"
+        <table schema="dom-user" tableName="user" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
         </table>

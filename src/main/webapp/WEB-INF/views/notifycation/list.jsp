@@ -48,12 +48,12 @@
 <section>
     <ul>
         <li>
-            <a href="/dormitory/notifycation/list?buildid="${user.buildid}>
+            <a href="/dormitory/notifycation/list?buildid=${user.buildid}">
                 <span class="iconfont icon-tongzhigonggao icon1"></span> 通知公告
             </a>
         </li>
         <li>
-            <a href="/dormitory/payment/list">
+            <a href="/dormitory/payment/list?buildid=${user.buildid}">
                 <span class="iconfont icon-zhangdan  icon"></span> 水电账单
             </a>
         </li>
@@ -65,11 +65,12 @@
     <h2>
         通知列表
         <div class="input">
-            <input id="inputheadline" type="text" value="请输入通知标题">
+            <input id="inputheadline" type="text" placeholder="请输入通知标题">
+            <a id="searchBtn" ></a>
         </div>
         <div class="add">
             添加通知公告
-            <a href="/dormitory/notifycation/preadd?user=${user}" class="iconfont icon-add-fill icon"></a>
+            <a href="/dormitory/notifycation/preadd?userid=${user.userid}" class="iconfont icon-add-fill icon"></a>
         </div>
     </h2>
 
@@ -91,9 +92,10 @@
                 <td>${notifycation.promulgator}</td>
                 <td>${notifycation.notificationdate}</td>
                 <td>${notifycation.buildid}</td>
-                <td>
-                    <a href="/dormitory/notifycation/update?notifycationid=${notifycation.notifycationid}" class="iconfont icon-bi"></a>
+                <td id="notifycation${notifycation.notifycationid}">
+                    <a href="/dormitory/notifycation/preupdate?notifycationid=${notifycation.notifycationid}" class="iconfont icon-bi"></a>
                     <a href="/dormitory/notifycation/delete?notifycationid=${notifycation.notifycationid}" class="iconfont icon-lajitong"></a>
+                    <%--<a onclick="delNotify(${notifycation.notifycationid});" class="iconfont icon-lajitong"></a>--%>
                 </td>
             </tr>
         </c:forEach>
@@ -106,7 +108,7 @@
                 <a>上一页</a>
             </c:when>
             <c:otherwise>
-                <a href="/dormitory/notifycation/list?page=${pageInfo.pageNum-1}" target="_self">上一页</a>
+                <a href="/dormitory/notifycation/list?buildid=${user.buildid}&page=${pageInfo.pageNum-1}" target="_self">上一页</a>
             </c:otherwise>
         </c:choose>
         <!-- 此处引入当前页面信息 -->
@@ -118,18 +120,26 @@
                 <a>下一页</a>
             </c:when>
             <c:otherwise>
-                <a href="/dormitory/notifycation/list?page=${pageInfo.pageNum+1}" target="_self">下一页</a>
+                <a href="/dormitory/notifycation/list?buildid=${user.buildid}&page=${pageInfo.pageNum+1}" target="_self">下一页</a>
             </c:otherwise>
         </c:choose>向第 <input id="inputpage" type="text"> 页
         <a class="skip" onclick="jump()">跳转</a>
         <script type="text/javascript">
             function jump() {
-                window.location.href = "/dormitory/notifycation/list?page=" + $("#inputpage").val();
+                window.location.href = "/dormitory/notifycation/list?buildid=${user.buildid}&page=" + $("#inputpage").val();
             }
         </script>
     </div>
 </div>
 <!-- 展示列表模块 end -->
+
+<%--<script>--%>
+    <%--function delNotify(id) {--%>
+        <%--if (confirm(msg)==true){--%>
+            <%--window.location.href = "/dormitory/notifycation/delete?notifycationid="+id;--%>
+        <%--}--%>
+    <%--};--%>
+<%--</script>--%>
 </body>
 
 </html>

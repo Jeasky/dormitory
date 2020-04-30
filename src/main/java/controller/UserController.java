@@ -1,12 +1,14 @@
 package controller;
 
-import domain.Users;
+import domain.User;
+import exception.PasswordException;
+import exception.UserNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.RedisService;
-import service.UsersService;
+import service.UserService;
 import util.CookieUtils;
 import vo.JsonResult;
 
@@ -21,28 +23,32 @@ public class UserController {
 
     //属性
     @Resource
-    private UsersService usersService;
+    private UserService userService;
     @Resource
     private RedisService redisService;
 
-    /**
-     * 控制方法，实现登录功能
-     * model 相当于request对象，可以保存数据对象
-     */
+
     @RequestMapping("login")
     @ResponseBody
-    public JsonResult login(HttpServletRequest request, HttpServletResponse response, String wechatid, Model model) {
-        //业务调用
-        Users users = this.usersService.isLogin(wechatid);
+    public JsonResult login(HttpServletRequest request, HttpServletResponse response, int userid, String passwd, Model model) {
+        try {
+            //
+            User user = this.userService.isLogin(userid,passwd);
 
-        //对user进行缓存处理
-        String token = this.redisService.SaveUser(users);
-        //拿到一个token后,放入到cookie中
-        CookieUtils.setCookie(request, response, "token", token);
+            //对user进行缓存处理
+            String token=this.redisService.SaveUser(user);
 
-        model.addAttribute("user", users);
+            //拿到一个token后，放入cookie
+            CookieUtils.setCookie(request,response,"token",token);
 
-        return JsonResult.isLogin(users);
+            return JsonResult.isLogin(user);
+        } catch (PasswordException e) {
+            e.printStackTrace();
+            return JsonResult.isLoginError("密码错误!");
+        } catch (UserNameException e){
+            e.printStackTrace();
+            return JsonResult.isLoginError("用户名不存在!");
+        }
 
     }
 }

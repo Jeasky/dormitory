@@ -1,6 +1,6 @@
 package interceptor;
 
-import domain.Users;
+import domain.User;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import service.RedisService;
 
@@ -45,7 +45,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
                     //根据这个token获取到user
                     //从缓存中取出这个数据
-                    Users user=this.redisService.getUser(token);
+                    User user=this.redisService.getUser(token);
 
                     //保存到本地session
                     HttpSession session=request.getSession();

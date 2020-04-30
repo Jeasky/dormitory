@@ -65,4 +65,32 @@ public class JsonResult {
 
         return jsonResult;
     }
+
+    /**
+     *
+     * 添加操作
+     */
+    public static JsonResult addOperation(Object data){
+        //产生一个jsonresult对象
+        JsonResult jsonResult=new JsonResult();
+        jsonResult.setData(data);
+        jsonResult.setRespCode(200);
+        jsonResult.setRespMessage("添加成功！");
+
+        return jsonResult;
+    }
+
+    /**
+     *
+     * 添加操作失败
+     */
+    public static JsonResult addError(String errorInfo){
+
+        JsonResult jsonResult=new JsonResult();
+        jsonResult.setRespCode(500);
+        jsonResult.setRespMessage("登录失败");
+        jsonResult.setErrorInfo(errorInfo);
+
+        return jsonResult;
+    }
 }

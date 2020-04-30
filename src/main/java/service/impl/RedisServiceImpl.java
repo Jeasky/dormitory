@@ -1,6 +1,6 @@
 package service.impl;
 
-import domain.Users;
+import domain.User;
 import jedis.JedisClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class RedisServiceImpl implements RedisService {
     private JedisClient jedisClient;
 
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
-    public String SaveUser(Users users) {
+    public String SaveUser(User users) {
 
         //清空你的敏感数据
 //        users.setUserPass(null);
@@ -41,7 +41,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
-    public Users getUser(String token) {
+    public User getUser(String token) {
 
         //获取用户对象
         String json=this.jedisClient.get(token);
@@ -50,9 +50,9 @@ public class RedisServiceImpl implements RedisService {
         if(StringUtils.isNotBlank(json)){
 
             //redis设置时间，每操作一次，重置一次时长
-            jedisClient.expire(token,5*60);
+            jedisClient.expire(token,30*60);
 
-            return JsonUtils.jsonToPojo(json, Users.class);
+            return JsonUtils.jsonToPojo(json, User.class);
         }else {
             //抛异常
             return null;
