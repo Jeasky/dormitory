@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.PaymentfileMapper">
+  <resultMap id="BaseResultMap" type="domain.Paymentfile">
+    <id column="paymenttableid" jdbcType="INTEGER" property="paymenttableid" />
+    <result column="paymenthead" jdbcType="VARCHAR" property="paymenthead" />
+    <result column="paymentdate" jdbcType="TIMESTAMP" property="paymentdate" />
+    <result column="buildid" jdbcType="INTEGER" property="buildid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    paymenttableid, paymenthead, paymentdate, buildid
+  </sql>
+
+  <select id="selectByBuildid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from paymentfile
+    where buildid = #{buildid,jdbcType=INTEGER}
+    order by paymentdate desc
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from paymentfile
+    where paymenttableid = #{paymenttableid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from paymentfile
+    where paymenttableid = #{paymenttableid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="domain.Paymentfile">
+    insert into paymentfile (paymenttableid, paymenthead, paymentdate, 
+      buildid)
+    values (#{paymenttableid,jdbcType=INTEGER}, #{paymenthead,jdbcType=VARCHAR}, #{paymentdate,jdbcType=TIMESTAMP}, 
+      #{buildid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.Paymentfile">
+    insert into paymentfile
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paymenttableid != null">
+        paymenttableid,
+      </if>
+      <if test="paymenthead != null">
+        paymenthead,
+      </if>
+      <if test="paymentdate != null">
+        paymentdate,
+      </if>
+      <if test="buildid != null">
+        buildid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paymenttableid != null">
+        #{paymenttableid,jdbcType=INTEGER},
+      </if>
+      <if test="paymenthead != null">
+        #{paymenthead,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentdate != null">
+        #{paymentdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buildid != null">
+        #{buildid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.Paymentfile">
+    update paymentfile
+    <set>
+      <if test="paymenthead != null">
+        paymenthead = #{paymenthead,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentdate != null">
+        paymentdate = #{paymentdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buildid != null">
+        buildid = #{buildid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where paymenttableid = #{paymenttableid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.Paymentfile">
+    update paymentfile
+    set paymenthead = #{paymenthead,jdbcType=VARCHAR},
+      paymentdate = #{paymentdate,jdbcType=TIMESTAMP},
+      buildid = #{buildid,jdbcType=INTEGER}
+    where paymenttableid = #{paymenttableid,jdbcType=INTEGER}
+  </update>
+</mapper>
