@@ -161,4 +161,86 @@ public class RepairServiceImpl implements RepairService {
         else
             return false;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public PageInfo<Repair> RoomAll(Integer buildid, Integer roomid, Integer page, Integer pageSize){
+
+        //指定分页信息，分页的插件类，PageHelper
+        PageHelper.startPage(page,pageSize);
+
+        List<Repair> repairList=this.repairMapper.selectByRoom(buildid, roomid);
+
+        PageInfo<Repair> pageInfo=new PageInfo<Repair>(repairList);
+
+        if(page<1){
+            pageInfo.setPageNum(1);
+        }
+        if(page>pageInfo.getPages()){
+            pageInfo.setPageNum(pageInfo.getPages());
+        }
+
+        return pageInfo;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public PageInfo<Repair> RoomDone(Integer buildid, Integer roomid, Integer page, Integer pageSize){
+
+        //指定分页信息，分页的插件类，PageHelper
+        PageHelper.startPage(page,pageSize);
+
+        List<Repair> repairList=this.repairMapper.selectByRoomDone(buildid, roomid);
+
+        PageInfo<Repair> pageInfo=new PageInfo<Repair>(repairList);
+
+        if(page<1){
+            pageInfo.setPageNum(1);
+        }
+        if(page>pageInfo.getPages()){
+            pageInfo.setPageNum(pageInfo.getPages());
+        }
+
+        return pageInfo;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public PageInfo<Repair> RoomUndo(Integer buildid, Integer roomid, Integer page, Integer pageSize){
+
+        //指定分页信息，分页的插件类，PageHelper
+        PageHelper.startPage(page,pageSize);
+
+        List<Repair> repairList=this.repairMapper.selectByRoomUndo(buildid, roomid);
+
+        PageInfo<Repair> pageInfo=new PageInfo<Repair>(repairList);
+
+        if(page<1){
+            pageInfo.setPageNum(1);
+        }
+        if(page>pageInfo.getPages()){
+            pageInfo.setPageNum(pageInfo.getPages());
+        }
+
+        return pageInfo;
+    }
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public Repair Detail(Integer repairid){
+
+        Repair repair = this.repairMapper.selectByPrimaryKey(repairid);
+
+        return repair;
+    }
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
+    public int addRepair(Repair repair){
+
+        int result= this.repairMapper.insert(repair);
+
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = false)
+    public int Update(Repair repair){
+
+        int result= this.repairMapper.updateByPrimaryKeySelective(repair);
+
+        return result;
+    }
 }

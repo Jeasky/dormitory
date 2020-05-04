@@ -26,21 +26,42 @@
     from payment
     where paymentid = #{paymentid,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByRoomID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from payment
+    where paymenttableid = #{paymenttableid} and buildid = #{buildid} and roomid = #{roomid}
+  </select>
+
+  <select id="selectByTableID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from payment
+    where paymenttableid = #{paymenttableid,jdbcType=INTEGER}
+    order by roomid asc
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from payment
     where paymentid = #{paymentid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="domain.Payment">
+
+  <!--使用foreach批量插入payment账单数据-->
+  <insert id="insert" parameterType="java.util.List">
     insert into payment (paymentid, paymenttableid, buildid, 
       roomid, electricityfrom, electricityend, 
       electricityprice, electricitycost, waterfrom, 
       waterend, waterprice, watercost, 
       total)
-    values (#{paymentid,jdbcType=INTEGER}, #{paymenttableid,jdbcType=INTEGER}, #{buildid,jdbcType=INTEGER}, 
-      #{roomid,jdbcType=INTEGER}, #{electricityfrom,jdbcType=DOUBLE}, #{electricityend,jdbcType=DOUBLE}, 
-      #{electricityprice,jdbcType=DOUBLE}, #{electricitycost,jdbcType=DOUBLE}, #{waterfrom,jdbcType=DOUBLE}, 
-      #{waterend,jdbcType=DOUBLE}, #{waterprice,jdbcType=DOUBLE}, #{watercost,jdbcType=DOUBLE}, 
-      #{total,jdbcType=DOUBLE})
+    values 
+    <foreach collection="list" item="item" separator="," close=";">
+    (#{item.paymentid,jdbcType=INTEGER}, #{item.paymenttableid,jdbcType=INTEGER}, #{item.buildid,jdbcType=INTEGER},
+    #{item.roomid,jdbcType=INTEGER}, #{item.electricityfrom,jdbcType=DOUBLE}, #{item.electricityend,jdbcType=DOUBLE},
+    #{item.electricityprice,jdbcType=DOUBLE}, #{item.electricitycost,jdbcType=DOUBLE}, #{item.waterfrom,jdbcType=DOUBLE},
+    #{item.waterend,jdbcType=DOUBLE}, #{item.waterprice,jdbcType=DOUBLE}, #{item.watercost,jdbcType=DOUBLE},
+    #{item.total,jdbcType=DOUBLE})
+    </foreach>
   </insert>
   <insert id="insertSelective" parameterType="domain.Payment">
     insert into payment

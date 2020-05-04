@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="css/conmon.css">
     <!-- 页面css文件 -->
     <link rel="stylesheet" href="css/notifycation.css">
+    <!--引入jQuery文件-->
+    <script src="js/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
@@ -30,7 +32,7 @@
 
     <!-- 时间模块 start-->
     <div class="time">
-        <span>2020年03月21日 20:00:52 星期六</span>
+        <span id="nowTime"></span>
     </div>
     <!-- 时间模块 end-->
 

@@ -60,7 +60,7 @@
     <!--在Spring的配置文件中添加文件上传解析器-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"></property>
-        <property name="maxUploadSize" value="1000000000"></property>
+        <property name="maxUploadSize" value="102400000"></property>
     </bean>
 
 

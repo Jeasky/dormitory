@@ -42,7 +42,12 @@ Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"
         <javaClientGenerator targetPackage="mapper" targetProject="src/main/java" type="XMLMAPPER"/>
 
         <!-- 必改-->
-        <table schema="dom-user" tableName="user" enableCountByExample="false"
+        <table schema="dom-cost" tableName="cost" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+
+        <table schema="dom-account" tableName="account" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
         </table>

@@ -17,6 +17,10 @@ public interface RepairMapper {
 
     List<Repair> selectByRoom(@Param("buildid")Integer buildid, @Param("roomid")Integer roomid);
 
+    List<Repair> selectByRoomDone(@Param("buildid")Integer buildid, @Param("roomid")Integer roomid);
+
+    List<Repair> selectByRoomUndo(@Param("buildid")Integer buildid, @Param("roomid")Integer roomid);
+
     List<Repair> selectAll();
 
     List<Repair> selectDone();

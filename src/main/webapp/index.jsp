@@ -66,13 +66,33 @@
         })
     });
 
-    $("#wechatid").onfocus(function () {
-        $("#wechatid").val("");
-    });
+    $("#passwd").keydown(function (t) {
+        if(t.keyCode == 13){
+            $.ajax({
+                url: "<%=basePath%>user/login",
+                type: "POST",
+                data: {
+                    "userid": $("#userid").val(),
+                    "passwd": $("#passwd").val()
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.respCode == 200) {
+                        //根据用户类型进行跳转
+                        //用户类型字段为1,为学生用户,2为宿舍管理人员,3为维修人员
+                        switch (data.data.usertype) {
+                            case 1: location.href = "<%=basePath%>stu/notifycation"; break;
+                            case 2: location.href = "<%=basePath%>notifycation/list?buildid="+data.data.buildid; break;
+                            default : location.href = "<%=basePath%>"; break;
+                        }
 
-    $("#pwd").onfocus(function () {
-        $("#pwd").val("");
-    });
+                    } else {
+                        alert(data.respMessage + ":" + data.errorInfo);
+                    }
+                }
+            })
+        }
+    })
 
     $("#reset").click(function () {
         $("#userid").val("");

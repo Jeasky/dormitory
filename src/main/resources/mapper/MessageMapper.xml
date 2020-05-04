@@ -23,11 +23,18 @@
   </select>
 
   <!--根据宿舍号查询所有留言代办-->
-  <select id="selectByRoom" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByRoom" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from message
-    where BuildID = #{buildid,jdbcType=INTEGER} and RoomID = ##{roomid,jdbcType=INTEGER}
+    where BuildID = #{buildid} and RoomID = #{roomid}
+  </select>
+
+  <select id="selectByKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from message
+    where BuildID = #{buildid} and RoomID = #{roomid} and MessageHead LIKE '%${searchKey}%'
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

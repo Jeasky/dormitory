@@ -1,6 +1,7 @@
 package mapper;
 
 import domain.Message;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,7 +15,9 @@ public interface MessageMapper {
 
     Message selectByPrimaryKey(Integer messageid);
 
-    List<Message> selectByRoom(Integer buildid, Integer roomid);
+    List<Message> selectByRoom(@Param("buildid") Integer buildid, @Param("roomid") Integer roomid);
+
+    List<Message> selectByKey(@Param("buildid") Integer buildid, @Param("roomid") Integer roomid, @Param("searchKey") String searchKey);
 
     int updateByPrimaryKeySelective(Message record);
 

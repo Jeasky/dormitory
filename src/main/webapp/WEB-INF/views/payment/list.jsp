@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--使用fmt标签，格式化时间日期--%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -19,6 +21,8 @@
     <link rel="stylesheet" href="css/base.css">
     <!-- 公共css文件 -->
     <link rel="stylesheet" href="css/conmon.css">
+    <!--引入jQuery文件-->
+    <script src="js/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
@@ -37,7 +41,7 @@
 
 <!-- 时间模块 start-->
 <div class="time">
-    <span>2020年03月21日 20:00:52 星期六</span>
+    <span id="nowTime"></span>
 </div>
 <!-- 时间模块 end-->
 
@@ -62,7 +66,7 @@
     <h2>
         账单列表
         <div class="input">
-            <input type="text" placeholder="请输入水电账单标题">
+            <input id="inputheadline" name="inputheadline" type="text" placeholder="请输入水电账单标题">
         </div>
         <div class="add">
             添加水电账单
@@ -84,11 +88,11 @@
             <tr>
                 <td>${paymentfile.paymenttableid}</td>
                 <td>${paymentfile.paymenthead}</td>
-                <td>${paymentfile.paymentdate}</td>
+                <td><fmt:formatDate value="${paymentfile.paymentdate}" pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
                 <td>${paymentfile.buildid}</td>
                 <td>
-                    <a href="javascript:;" class="iconfont icon-yanjing"></a>
-                    <a href="javascript:;" class="iconfont icon-lajitong"></a>
+                    <a href="/dormitory/payment/detail?paymenttableid=${paymentfile.paymenttableid}" class="iconfont icon-yanjing"></a>
+                    <a href="/dormitory/payment/delete?paymenttableid=${paymentfile.paymenttableid}" class="iconfont icon-lajitong"></a>
                 </td>
             </tr>
         </c:forEach>
@@ -125,6 +129,64 @@
     </div>
 </div>
 <!-- 展示列表模块 end -->
+
+<%--回车事件触发，搜索水电账单业务执行--%>
+<script type="text/javascript">
+    $("#inputheadline").keydown(function (t) {
+        if(t.keyCode == 13){
+            window.location.href = "/dormitory/payment/find?buildid=${user.buildid}&searchKey="+$("#inputheadline").val()
+        }
+    })
+</script>
+
+<%--实时获取当前时间--%>
+<script>
+
+    window.onload = function () {
+        getLongDate();
+    }//定时刷新
+    function getLongDate() {
+        //创建当前系统时间的Date对象
+        var dateObj = new Date();
+        //获取完整年份值
+        var year = dateObj.getFullYear();
+        //获取月份
+        var month = dateObj.getMonth() + 1;
+        //获取月份中的日
+        var date = dateObj.getDate();
+        //获取星期值
+        var day = dateObj.getDay();
+        var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        //根据星期值，从数组中获取对应的星期字符串
+        var week = weeks[day];
+        //获取小时
+        var hour = dateObj.getHours();
+        //获取分钟
+        var minute = dateObj.getMinutes();
+        //获取秒钟
+        var second = dateObj.getSeconds();
+        //如果月、日、时、分、秒的值小于10，在前面补0
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (date < 10) {
+            date = "0" + date;
+        }
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+        if (minute < 10) {
+            minute = "0" + minute;
+        }
+        if (second < 10) {
+            second = "0" + second;
+        }
+        global_user_date = year + "-" + month + "-" + date;
+        var newDate = year + "年" + month + "月" + date + "日 " + week + " " + hour + ":" + minute + ":" + second;
+        document.getElementById("nowTime").innerHTML = "[ " + newDate + " ]";
+        setTimeout("getLongDate()", 1000);//每隔一秒重新调用一次该函数
+    }
+</script>
 </body>
 
 </html>

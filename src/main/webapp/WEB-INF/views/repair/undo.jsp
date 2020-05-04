@@ -2,6 +2,8 @@
 <%@ page import="org.springframework.ui.Model" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--使用fmt标签，格式化时间日期--%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
     String path = request.getContextPath();
@@ -44,7 +46,7 @@
 
 <!-- 时间模块 start-->
 <div class="time">
-    <span>登录时间</span><span id="time">2018年1月1日 11:11 星期一</span>
+    <span id="nowTime"></span>
 </div>
 <!-- 时间模块 end-->
 
@@ -81,7 +83,7 @@
                 <td>${repair.repairthing}</td>
                 <td>${repair.repairdes}</td>
                 <td>${repair.buildid}-${repair.roomid}</td>
-                <td id="repairdatefrom">${repair.repairdatefrom}</td>
+                <td><fmt:formatDate value="${repair.repairdatefrom}" pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
                 <c:choose>
                     <c:when test="${repair.repairstatus eq 0}">
                         <td>未维修</td>
@@ -91,7 +93,7 @@
                     </c:otherwise>
                 </c:choose>
                 <td>${repair.repairperson}</td>
-                <td>${repair.repairdateend}</td>
+                <td><fmt:formatDate value="${repair.repairdateend}" pattern="yyyy年MM月dd日 HH:mm:ss"/></td>
                 <td><a id="changestatus" class="iconfont icon-yichuli1"
                        href="<%=basePath%>repair/changestatus?repairid=${repair.repairid}&repairstatus=1&repairperson=${user.username}&pagename=undo&page=${pageInfo.pageNum}"></a>
                 </td>
@@ -130,6 +132,55 @@
     </div>
 </div>
 <!-- 展示列表模块 end -->
+
+<%--实时获取当前时间--%>
+<script>
+
+    window.onload = function () {
+        getLongDate();
+    }//定时刷新
+    function getLongDate() {
+        //创建当前系统时间的Date对象
+        var dateObj = new Date();
+        //获取完整年份值
+        var year = dateObj.getFullYear();
+        //获取月份
+        var month = dateObj.getMonth() + 1;
+        //获取月份中的日
+        var date = dateObj.getDate();
+        //获取星期值
+        var day = dateObj.getDay();
+        var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        //根据星期值，从数组中获取对应的星期字符串
+        var week = weeks[day];
+        //获取小时
+        var hour = dateObj.getHours();
+        //获取分钟
+        var minute = dateObj.getMinutes();
+        //获取秒钟
+        var second = dateObj.getSeconds();
+        //如果月、日、时、分、秒的值小于10，在前面补0
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (date < 10) {
+            date = "0" + date;
+        }
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+        if (minute < 10) {
+            minute = "0" + minute;
+        }
+        if (second < 10) {
+            second = "0" + second;
+        }
+        global_user_date = year + "-" + month + "-" + date;
+        var newDate = year + "年" + month + "月" + date + "日 " + week + " " + hour + ":" + minute + ":" + second;
+        document.getElementById("nowTime").innerHTML = "[ " + newDate + " ]";
+        setTimeout("getLongDate()", 1000);//每隔一秒重新调用一次该函数
+    }
+</script>
 </body>
 
 </html>

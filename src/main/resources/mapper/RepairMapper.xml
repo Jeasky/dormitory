@@ -35,6 +35,24 @@
     order by repairdatefrom desc
   </select>
 
+  <!--查询本宿舍的维修报备-->
+  <select id="selectByRoomDone" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from repair
+    where BuildID = #{buildid,jdbcType=INTEGER} and RoomID = #{roomid,jdbcType=INTEGER} and RepairStatus = 1
+    order by repairdatefrom desc
+  </select>
+
+  <!--查询本宿舍的维修报备-->
+  <select id="selectByRoomUndo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from repair
+    where BuildID = #{buildid,jdbcType=INTEGER} and RoomID = #{roomid,jdbcType=INTEGER} and RepairStatus = 0
+    order by repairdatefrom desc
+  </select>
+
   <!--查看所有维修部报备-->
   <select id="selectAll" resultMap="BaseResultMap">
     select

@@ -8,7 +8,7 @@
 <html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%--<meta name="viewport" content="width=device-width, initial-scale=1.0">--%>
     <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
     <title>添加水电账单</title>
     <base href="<%= basePath%>resources/">
@@ -39,7 +39,7 @@
 
 <!-- 时间模块 start-->
 <div class="time">
-    <span>2020年03月21日 20:00:52 星期六</span>
+    <span id="nowTime"></span>
 </div>
 <!-- 时间模块 end-->
 
@@ -62,7 +62,7 @@
 
         <div class="release-unit">
             水电账单文件:
-            <input id="paymentfile" name="paymentfile" type="file" accept="xls/xlsx" placeholder="请选择水电账单文件">
+            <input id="paymentfile" name="paymentfile" type="file" placeholder="请选择水电账单文件">
             <input type="hidden"  id="ssFile" name="ssFile"> <!--用于文件名回显-->
         </div>
 
@@ -75,50 +75,78 @@
 
 <script>
     $("#addBtn").click(function () {
-        var paymentfile = document.getElementById("paymentfile");
-        var ssFile = document.getElementById("ssFile");
-        ssFile.value = paymentfile.value.substring(12);    //取出文件名，并赋值回显到文本框，用于向后台传文件名
+        var fileObj = document.getElementById("paymentfile").files[0]; // js 获取文件对象
+        var myfrom= new window.FormData();
+        myfrom.append("paymentfile",fileObj);
+        myfrom.append("paymenthead",$("#paymenthead").val());
+        myfrom.append("buildid",${user.buildid});
         $.ajax({
-            url : "<%=basePath%>payment/add", //用于文件上传的服务器端请求地址
-            fileElementId : 'paymentfile', //文件上传空间的id属性  <input type="file" id="paymentfile" name="paymentfile" />
-            data : {
-                "buildid": ${user.buildid},
-                "paymenthead": $("#paymenthead").val()
-            },
-            processData: false, //因为data值是FormData对象，不需要对数据做处理。
+            url :  "<%=basePath%>payment/add",
+            data : myfrom,
+            type : "POST",
+            datatype: "json",
+            async: true,
+            cache: false,
             contentType: false,
-            type : 'POST',
-            dataType : 'text', //返回值类型 一般设置为json
+            processData: false,
             success : function(data, status) //服务器成功响应处理函数
             {
-                alert("文件上传成功");
                 location.href= "<%=basePath%>payment/list?buildid=${user.buildid}";
             },
             error : function(data, status, e)//服务器响应失败处理函数
             {
                 alert("文件上传失败!"+data.responseJSON);
-
             }
         })
     });
 </script>
 
-<%--<script>--%>
-    <%--$("#addBtn").click(function () {--%>
-        <%--$.ajax({--%>
-            <%--url: "<%=basePath%>payment/add",--%>
-            <%--type: "POST",--%>
-            <%--data: {--%>
-                <%--"buildid": ${user.buildid},--%>
-                <%--"paymenthead": $("#paymenthead").val(),--%>
-                <%--"paymentfile": $("#paymentfile").val()--%>
-            <%--},--%>
-            <%--dataType: "text",--%>
-            <%--success: function (data) {--%>
-                <%--alert("添加成功！");--%>
-                <%--location.href= "<%=basePath%>payment/list?buildid=${user.buildid}";--%>
-            <%--}--%>
-        <%--})--%>
-    <%--});--%>
-<%--</script>--%>
+<%--实时获取当前时间--%>
+<script>
+
+    window.onload = function () {
+        getLongDate();
+    }//定时刷新
+    function getLongDate() {
+        //创建当前系统时间的Date对象
+        var dateObj = new Date();
+        //获取完整年份值
+        var year = dateObj.getFullYear();
+        //获取月份
+        var month = dateObj.getMonth() + 1;
+        //获取月份中的日
+        var date = dateObj.getDate();
+        //获取星期值
+        var day = dateObj.getDay();
+        var weeks = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        //根据星期值，从数组中获取对应的星期字符串
+        var week = weeks[day];
+        //获取小时
+        var hour = dateObj.getHours();
+        //获取分钟
+        var minute = dateObj.getMinutes();
+        //获取秒钟
+        var second = dateObj.getSeconds();
+        //如果月、日、时、分、秒的值小于10，在前面补0
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (date < 10) {
+            date = "0" + date;
+        }
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+        if (minute < 10) {
+            minute = "0" + minute;
+        }
+        if (second < 10) {
+            second = "0" + second;
+        }
+        global_user_date = year + "-" + month + "-" + date;
+        var newDate = year + "年" + month + "月" + date + "日 " + week + " " + hour + ":" + minute + ":" + second;
+        document.getElementById("nowTime").innerHTML = "[ " + newDate + " ]";
+        setTimeout("getLongDate()", 1000);//每隔一秒重新调用一次该函数
+    }
+</script>
 </html>

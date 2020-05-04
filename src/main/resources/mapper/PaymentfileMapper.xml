@@ -19,12 +19,28 @@
     order by paymentdate desc
   </select>
 
+  <select id="selectByKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from paymentfile
+    where buildid = #{buildid,jdbcType=INTEGER} and paymenthead LIKE '%${searchKey}%'
+    order by paymentdate desc
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from paymentfile
     where paymenttableid = #{paymenttableid,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByDate" parameterType="java.util.Date" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from paymentfile
+    where paymentdate = #{date}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from paymentfile
     where paymenttableid = #{paymenttableid,jdbcType=INTEGER}

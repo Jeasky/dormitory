@@ -71,7 +71,7 @@ public class NotifyController {
             page = 1;
         }
         if (pageSize == null) {
-            pageSize = 3;
+            pageSize = 8;
         }
 
         //调用业务方法
@@ -183,7 +183,7 @@ public class NotifyController {
             page = 1;
         }
         if (pageSize == null) {
-            pageSize = 3;
+            pageSize = 8;
         }
 
         //调用业务方法
@@ -231,7 +231,7 @@ public class NotifyController {
 
     }
 
-    //在宿学生展示通知公告列表
+    //在宿学生搜索通知公告列表
     @RequestMapping("search")
     public @ResponseBody PageInfo<Notifycation> search(Integer buildid, String searchKey, Integer page, Integer pageSize, HttpServletRequest request) throws Exception {
 
@@ -252,6 +252,66 @@ public class NotifyController {
         }
 
         return pageInfo;
+
+    }
+
+    //宿管搜索通知公告
+    @RequestMapping("find")
+    public ModelAndView find(Integer buildid, String searchKey, Integer page, Integer pageSize, HttpServletRequest request) throws Exception {
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        User user = new User();
+        //获取Cookie
+        Cookie[] cookies = request.getCookies();
+
+        //对cookies判断
+        if (cookies != null) {
+
+            //遍历
+            for (Cookie cookie : cookies) {
+
+                //获取cookie的键
+                String name = cookie.getName();
+
+                //对name进行判断，name是否就是我们需要的token
+                if ("token".equals(name)) {
+
+                    //从把cookies中name对应的值取出来
+                    //这个值就是token
+                    String token = cookie.getValue();     //这个tokne还是redis的key
+
+                    //根据这个token获取到user
+                    //从缓存中取出这个数据
+                    user = this.redisService.getUser(token);
+                }
+            }
+        }
+
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 8;
+        }
+
+        PageInfo<Notifycation> pageInfo=null;
+
+        //调用业务方法
+        if(searchKey == "") {
+            pageInfo = this.notifycationService.displayAll(buildid, page, pageSize);
+        }else{
+            pageInfo = this.notifycationService.search(buildid,searchKey,page,pageSize);
+        }
+
+        //把数据放入到容器中，以后能够从jsp页面中从这个容器中取出
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("pageInfo", pageInfo);
+
+        //view 设置返回地址
+        modelAndView.setViewName("notifycation/list");
+
+        return modelAndView;
 
     }
 
