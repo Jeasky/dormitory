@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CostMapper">
+  <resultMap id="BaseResultMap" type="domain.Cost">
+    <id column="CostID" jdbcType="INTEGER" property="costid" />
+    <result column="AccountID" jdbcType="INTEGER" property="accountid" />
+    <result column="CostType" jdbcType="INTEGER" property="costtype" />
+    <result column="Amount" jdbcType="REAL" property="amount" />
+    <result column="CostDes" jdbcType="VARCHAR" property="costdes" />
+    <result column="CostDate" jdbcType="TIMESTAMP" property="costdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CostID, AccountID, CostType, Amount, CostDes, CostDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cost
+    where CostID = #{costid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccountID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cost
+    where AccountID = #{accountid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cost
+    where CostID = #{costid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="domain.Cost">
+    insert into cost (CostID, AccountID, CostType, 
+      Amount, CostDes, CostDate
+      )
+    values (#{costid,jdbcType=INTEGER}, #{accountid,jdbcType=INTEGER}, #{costtype,jdbcType=INTEGER}, 
+      #{amount,jdbcType=REAL}, #{costdes,jdbcType=VARCHAR}, #{costdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.Cost">
+    insert into cost
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="costid != null">
+        CostID,
+      </if>
+      <if test="accountid != null">
+        AccountID,
+      </if>
+      <if test="costtype != null">
+        CostType,
+      </if>
+      <if test="amount != null">
+        Amount,
+      </if>
+      <if test="costdes != null">
+        CostDes,
+      </if>
+      <if test="costdate != null">
+        CostDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="costid != null">
+        #{costid,jdbcType=INTEGER},
+      </if>
+      <if test="accountid != null">
+        #{accountid,jdbcType=INTEGER},
+      </if>
+      <if test="costtype != null">
+        #{costtype,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=REAL},
+      </if>
+      <if test="costdes != null">
+        #{costdes,jdbcType=VARCHAR},
+      </if>
+      <if test="costdate != null">
+        #{costdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.Cost">
+    update cost
+    <set>
+      <if test="accountid != null">
+        AccountID = #{accountid,jdbcType=INTEGER},
+      </if>
+      <if test="costtype != null">
+        CostType = #{costtype,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        Amount = #{amount,jdbcType=REAL},
+      </if>
+      <if test="costdes != null">
+        CostDes = #{costdes,jdbcType=VARCHAR},
+      </if>
+      <if test="costdate != null">
+        CostDate = #{costdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CostID = #{costid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.Cost">
+    update cost
+    set AccountID = #{accountid,jdbcType=INTEGER},
+      CostType = #{costtype,jdbcType=INTEGER},
+      Amount = #{amount,jdbcType=REAL},
+      CostDes = #{costdes,jdbcType=VARCHAR},
+      CostDate = #{costdate,jdbcType=TIMESTAMP}
+    where CostID = #{costid,jdbcType=INTEGER}
+  </update>
+</mapper>
