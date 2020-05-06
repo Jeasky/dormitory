@@ -19,16 +19,16 @@ public class SweepController {
     SweepService sweepService;
 
     @RequestMapping("display")
-    public @ResponseBody PageInfo display(Integer buildid, Integer roomid, Integer page, Integer pageSize){
+    public @ResponseBody PageInfo display(Integer buildid, Integer roomid, Integer sweeptype,Integer page, Integer pageSize){
         if (page == null) {
             page = 1;
         }
 
         if (pageSize == null) {
-            pageSize = 8;
+            pageSize = 10;
         }
 
-        PageInfo<Sweep> pageInfo = this.sweepService.selectByRoom(buildid, roomid, page, pageSize);
+        PageInfo<Sweep> pageInfo = this.sweepService.selectByType(buildid, roomid, sweeptype, page, pageSize);
 
         return pageInfo;
     }

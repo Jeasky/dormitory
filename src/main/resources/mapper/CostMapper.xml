@@ -23,6 +23,7 @@
     <include refid="Base_Column_List" />
     from cost
     where AccountID = #{accountid,jdbcType=INTEGER}
+    order by CostDate desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cost

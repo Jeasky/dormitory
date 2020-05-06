@@ -41,6 +41,14 @@ public class CostController {
         return pageInfo;
     }
 
+    @RequestMapping("getcost")
+    public @ResponseBody Cost getcost(Integer costid) {
+
+        Cost cost = this.costService.seleteByCostID(costid);
+
+        return cost;
+    }
+
     @RequestMapping("displayaccount")
     public @ResponseBody Account displayaccount(Integer buildid, Integer roomid) {
 

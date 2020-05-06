@@ -14,4 +14,6 @@ public interface SweepService {
     public Sweep selectByID(Integer sweepid);
 
     public PageInfo<Sweep> selectByRoom(Integer buildid, Integer roomid, Integer page, Integer pageSize);
+
+    public PageInfo<Sweep> selectByType(Integer buildid, Integer roomid, Integer sweeptype, Integer page, Integer pageSize);
 }

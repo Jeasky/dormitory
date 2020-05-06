@@ -16,6 +16,8 @@ public interface SweepMapper {
 
     List<Sweep> selectByRoom(@Param("buildid") Integer buildid, @Param("roomid")Integer roomid);
 
+    List<Sweep> selectByType(@Param("buildid") Integer buildid, @Param("roomid")Integer roomid, @Param("sweeptype") Integer sweeptype);
+
     int updateByPrimaryKeySelective(Sweep record);
 
     int updateByPrimaryKey(Sweep record);

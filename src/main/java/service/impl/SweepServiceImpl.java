@@ -66,4 +66,23 @@ public class SweepServiceImpl implements SweepService {
 
         return pageInfo;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED,readOnly = true)
+    public PageInfo<Sweep> selectByType(Integer buildid, Integer roomid, Integer sweeptype, Integer page, Integer pageSize){
+        //指定分页信息，分页的插件类，PageHelper
+        PageHelper.startPage(page,pageSize);
+
+        List<Sweep> list=this.sweepMapper.selectByType(buildid, roomid, sweeptype);
+
+        PageInfo<Sweep> pageInfo=new PageInfo<>(list);
+
+        if(page<1){
+            pageInfo.setPageNum(1);
+        }
+        if(page>pageInfo.getPages()){
+            pageInfo.setPageNum(pageInfo.getPages());
+        }
+
+        return pageInfo;
+    }
 }
